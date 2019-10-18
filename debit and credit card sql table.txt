@@ -1,0 +1,127 @@
+CREATE TABLE credit_card (
+credit_card_num number(16)  PRIMARY KEY,
+credit_card_status varchar2(10) NOT NULL,
+name_on_cred_card varchar2(30) NOT NULL,
+credit_cvv_num number(3) NOT NULL,
+credit_cur_pin number(4) NOT NULL,
+credit_expiry_date date NOT NULL,
+UCI number(16) NOT NULL,
+credit_card_type varchar2(10) NOT NULL,
+credit_score number(3) NOT NULL,
+credit_limit number(20,2) NOT NULL,
+income number(20,2) NOT NULL
+);
+Insert into credit_card values(5189101213259898,'Active','Mohit Pursnani',623,9898,(TO_DATE('2023/06/30', 'yyyy/mm/dd')),7894561239632587,'Gold',200,100000.00,690600.00);
+
+************************************************************************************************************************************************
+
+CREATE TABLE debit_card (
+account_number number(11) NOT NULL,
+debit_card_number number(16) PRIMARY KEY,
+debit_card_status varchar2(10) NOT NULL,
+name_on_deb_card varchar2(30) NOT NULL,
+debit_cvv_num number(3) NOT NULL,
+debit_current_pin number(4) NOT NULL,
+debit_expiry_date date NOT NULL,
+UCI number(16) NOT NULL,
+debit_card_type varchar2(10) NOT NULL
+);
+Insert into debit_card values(1234567890,5234567891012131,'Active','Mohit Pursnani',067,2131,(TO_DATE('2024/07/30', 'yyyy/mm/dd')),7894561239632587,'Platinum');
+Insert into debit_card values(1234567890,5221562391012233,'Active','Mohit Pursnani',057,2233,(TO_DATE('2022/08/30', 'yyyy/mm/dd')),7894561239632587,'Silver');
+
+******************************************************************************************************************
+CREATE TABLE ACCOUNTS ( ACCOUNT_NUMBER NUMBER (12) PRIMARY KEY, UCI NUMBER (16) NOT NULL, CURRENT_BALANCE NUMBER (20,2) NOT NULL, ACCOUNT_TYPE VARCHAR2 (10) NOT NULL);
+CREATE TABLE CUSTOMERS ( UCI NUMBER (16) PRIMARY KEY,  FIRST_NAME VARCHAR2 (20) NOT NULL, LAST_NAME VARCHAR2 (20));
+insert into customers values (7894561239632587 , 'Mohit','Pursnani');
+*****************************************************************************************************************************************************
+
+CREATE TABLE  Credit_Card_trans
+(
+credit_Trans_Id varchar2(6) PRIMARY KEY ,
+UCI  number(16) NOT NULL , 
+Credit_Card_Num NUMBER(16) NOT NULL , 
+Date_Of_Trans Date NOT NULL  ,
+amount NUMBER(20,2) NOT NULL,
+description varchar2(20) NOT NULL,
+FOREIGN KEY (Credit_Card_Num)
+REFERENCES credit_card(credit_Card_Num)
+);
+INSERT into Credit_Card_trans Values('CRE101',
+7894561239632587, 
+5189101213259898,
+DATE'2012-04-04' ,
+5600,
+'Shopping');
+
+INSERT into Credit_Card_trans Values('CRE102',
+7894561239632587, 
+5189101213259898,
+DATE '2019-04-04' ,
+2300,
+'Ganesh supermarket');
+
+
+CREATE TABLE  Debit_Card_trans
+(
+Debit_Trans_Id varchar2(6) PRIMARY KEY ,
+UCI  number(16)  NOT NULL , 
+Customer_Account_Number NUMBER(11),
+debit_Card_Num NUMBER(16) NOT NULL  , 
+date_Of_trans TIMESTAMP   NOT NULL  ,
+amount NUMBER(20,2) NOT NULL,
+description varchar2(20) NOT NULL,
+type_Of_trans varchar2(6) NOT NULL,
+FOREIGN KEY (debit_Card_Num)
+REFERENCES debit_card(debit_card_number)
+);
+
+INSERT into Debit_Card_trans Values(
+'DEB101',
+7894561239632587, 
+1234567890,
+5234567891012131,
+TIMESTAMP '2019-05-04 13:35:00' ,
+2300,
+'Ganesh supermarket',
+'Debit');
+
+
+
+INSERT into Debit_Card_trans Values(
+'DEB102',
+7894561239632587, 
+1234567890,
+5234567891012131,
+TIMESTAMP '2019-06-04 13:35:00' ,
+15000,
+'Walmart merchant',
+'Debit');
+
+
+CREATE TABLE query_log(
+    query_ID varchar2(8) PRIMARY KEY ,
+    case_timestamp Timestamp NOT NULL,
+    status_of_query varchar2(10) NOT NULL,
+    account_num number(11) ,
+    UCI varchar2(16) NOT NULL,
+    define_query varchar2(20) NOT NULL,
+    card_num number(16) ,
+    customer_reference_ID varchar2(15) NOT NULL
+  );
+
+select credit_trans_Id,UCI,Credit_Card_Num,Date_Of_Trans,amount,description from Credit_Card_trans WHERE Date_Of_Trans between  '2018-01-01' And '2019-10-01' and credit_card_num=5189101213259898;
+
+
+
+
+    
+
+
+create table Accounts (
+    account_number number(11) PRIMARY KEY, 
+    uci number(16) NOT NULL,
+    FOREIGN KEY(uci) references Customers(uci)
+
+);
+
+insert into Accounts values ( 12345678910 , 7894561239632587);
